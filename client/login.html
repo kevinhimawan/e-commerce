@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style/style.css">
+    <!-- Lato Font -->
+    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Lato" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <!-- Materialize Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Login</title>
+</head>
+<body>
+    <div class="row login_page_container">        
+        <form id="login_form" class="col s12 login_form">
+            <div class="center-align title">
+                <h4 class="center-align logo_font">Sneaks It</h4>
+            </div>
+            <div class="row set_input">
+                <div class="input-field col s12">
+                    <input value="kevinhimawan" id="username_email_signin" type="text" class="validate">
+                    <label for="username_email_signin">Username or Email</label>
+                    <span style="display: none" class="login_user_notfound">Username not found or Password is wrong</span>
+                </div>
+            </div>
+            <div class="row set_input">
+                <div class="input-field col s12">
+                    <input value="kevin123" id="password_singin" type="password" class="validate">
+                    <label for="password_singin">Password</label>
+                    <i id="password_showup_login" class="material-icons signup_icons_desriptive">remove_red_eye</i>
+                </div>
+            </div>
+            <div class="buttons_login">
+                <button id="signin_button" type="button" class="waves-effect waves-light btn">Submit</button>    
+                <button id="signup_button" type="button" class="waves-effect waves-light btn">Sign Up</button>
+            </div>
+        </form>
+
+        <form id="signup_form" class="col s12 login_form">
+            <div class="center-align title">
+                <h4 class="center-align logo_font">Sneaks It</h4>
+                <h5 class="center-align login_top_description">Sign up to organise your task</h5>
+            </div>
+            <div class="row set_input">
+                <div class="input-field col s12">
+                    <input id="username_signup" type="text" class="validate">
+                    <label for="username_signup">Username</label>
+                </div>
+            </div>
+            <div class="row set_input">
+                <div id="email_div" class="input-field col s12">
+                    <input id="email_signup" type="text" class="validate">
+                    <label for="email_signup">Email</label>
+                </div>
+            </div>
+            <div class="row set_input">
+                <div id="password_div" class="input-field col s12">
+                    <input id="password_signup" type="password" class="validate">
+                    <label for="password_signup">Password</label>
+                    <i id="password_showup" class="material-icons signup_icons_desriptive">remove_red_eye</i>
+                    <span class="password_barometer"></span>
+                </div>
+            </div>
+            <div class="row set_input">
+                <div id="respassword_div" class="input-field col s12">
+                    <input id="repassword_signup" type="password" class="validate">
+                    <label for="repassword_signup">Confirm Password</label>
+                    <i id="repassword_showup" class="material-icons signup_icons_desriptive">remove_red_eye</i>
+                </div>
+            </div>
+            <div class="buttons_login">
+                <button id="signup_button_submit" type="button" class="waves-effect waves-light btn">Submit</button>    
+                <button id="haveacount_button" type="button" class="waves-effect waves-light btn">Have Acount</button>
+            </div>
+        </form>
+    </div>    
+</body>
+<!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<!-- Materiliaze CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<!-- Login Js -->
+    <script src="./script/login.script.js"></script>
+<!-- Sweet Alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</html>
