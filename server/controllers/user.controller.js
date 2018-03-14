@@ -27,6 +27,7 @@ module.exports = {
         User.find()
         .exec()
         .then(userData=>{
+            console.log(userData)
             res.status(200).json(userData)
         })
     },

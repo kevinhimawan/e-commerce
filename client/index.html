@@ -28,6 +28,31 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal Size -->
+        <div id="size_check" class="modal">
+            <div class="modal-content">
+                <h4>List Size</h4>
+                <p>Pick the size</p>
+                <div class="modal_container_size">
+                    <div class="modal_container_size_picture">
+                        <img class="modal_cart_images" v-bind:src="currentProduct.images" alt="">
+                    </div>
+                    <div class="modal_container_size_detailProduct">
+                        <div class="modal_container_size_detailProduct_header">
+                            <span style="font-size: 1.2em">{{ currentProduct.brand }}</span>
+                        </div>
+                        <div class="modal_container_size_detailProduct_content">
+                            <h4>{{currentProduct.name}}</h4>
+                        </div>
+                    </div>
+                    <div class="modal_container_size_selectSize">
+                        <button type="button" v-for="product in productDetail" v-on:click="pickSize(product._id)">{{product.sizeName}} IDR {{product.price}}K</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal Cart -->
         <div id="cart_user_modal" class="modal">
             <div class="modal-content">
@@ -137,16 +162,16 @@
                             <div class="card-content card_content_custom">
                                 <h2 class="card_content_title">{{product.name}}</h2>
                                 <h2 class="card_content_subtitle">LOWEST ASK</h4>
-                                <h2 class="card_content_price">1000</h2>
+                                <h2 class="card_content_price">{{product.Cheapest}}K</h2>
                                 <div class="card_content_footer">
                                     <h4 class="card_content_monetary">In Rupiah</h4>
-                                    <h4 class="card_content_quantity">1000 bid</h4>
+                                    <!-- <h4 class="card_content_quantity">1000 bid</h4> -->
                                 </div>
                             </div>
                             <div class="card-action card_action_custom">
                                 <a class="card_action_font">Bid</a>
                                 <a class="card_action_font">Share</a>
-                                <a v-on:click="addCart(product._id)" class="card_action_font">Cart</a>
+                                <a v-on:click="showSize(product._id)" data-target="size_check" class="card_action_font modal-trigger">Cart</a>
                             </div>
                         </div>
                     </div>

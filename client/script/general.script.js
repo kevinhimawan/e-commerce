@@ -24,23 +24,36 @@ new Vue({
         products: [],
         lowestPrice:[],
         carts: [],
-        cartsQty: ""
+        cartsQty: "",
+        sellProducts: [],
+        productDetail: [],
+        currentProduct: {},
+        size: []
     },
     created: function () {
         axios.get('http://localhost:3000/product/')
         .then(response=>{
-            this.products = response.data
+            this.sellProducts = response.data.sellProducts
+            this.products = response.data.products
+            this.size = response.data.size
             if(localStorage.getItem('token')){
                 $('#login_navbar').css('display','none')
                 $('#signout_navbar').css('display','block')
             }
-            let obj = {
-                token : localStorage.getItem('token')
-            }
-            axios.post('http://localhost:3000/cart/getCart',obj)
-            .then(response=>{
-                this.cartsQty = response.data
-            })
+            
+
+            // if(localStorage.getItem('token')){
+            //     let obj = {
+            //         token : localStorage.getItem('token')
+            //     }
+            //     axios.post('http://localhost:3000/cart/getCart',obj)
+            //     .then(response=>{
+            //         this.cartsQty = response.data
+            //     })
+            // }else{
+            //     window.location.href = 'login.html'
+            // }
+            
         })
         .catch(err=>{
 
@@ -73,20 +86,50 @@ new Vue({
             localStorage.clear()
             window.location.href = 'index.html'
         },
-        addCart: function(idProduct){
+        showSize: function(idProduct){
             
-            // const token = localStorage.getItem('token')
-            // let obj = {
-            //     product : idProduct,
-            //     token: token
-            // }
-            // axios.post('http://localhost:3000/cart/addcart',obj)
-            // .then(response=>{
-            //     window.location.href = 'index.html'
-            // })
-            // .catch(err=>{
+            let product;
+            for(let k = 0 ; k < this.products.length;k++){
+                if(this.products[k]._id === idProduct){
+                    product = this.products[k]
+                }
+            }
 
-            // })
+            this.currentProduct = product
+            
+            let sizes = []
+            for(let i = 0; i < product.sellProduct.length;i++){
+                let currentSize = product.sellProduct[i].size
+                
+                if(sizes.indexOf(currentSize) === -1){
+                    sizes.push(product.sellProduct[i].size)
+                }
+            }
+            let sortProduct = []
+            for(let i = 0; i < sizes.length;i++){
+                let sizesPerIndex = []
+                for(let j = 0;j < product.sellProduct.length;j++){
+                    if(sizes[i] === product.sellProduct[j].size){
+                        sizesPerIndex.push(product.sellProduct[j])
+                    }
+                }
+                let cheapest = sizesPerIndex[0].price
+                let cheapestObj;
+                for(let k = 0; k < sizesPerIndex.length;k++){
+                    if(sizesPerIndex[k].price < cheapest){
+                        cheapestObj = sizesPerIndex[k]
+                        for(let l = 0; l < this.size.length;l++){
+                            if(cheapestObj.size === this.size[l]._id){
+                                cheapestObj['sizeName'] = this.size[l].name
+                            }
+                        }
+                        cheapest = sizesPerIndex[k].price
+                    }
+                }
+                sortProduct.push(cheapestObj)
+            }
+            this.productDetail = sortProduct
+            
         },
         getCart:function(){
             let obj = {
@@ -100,6 +143,9 @@ new Vue({
             .catch(err=>{
 
             })
+        },
+        pickSize:function(productid){
+            
         }
     }
 })

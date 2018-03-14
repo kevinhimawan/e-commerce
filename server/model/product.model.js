@@ -10,14 +10,10 @@ const productSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Size'
     }],
-    SellProduct: [{
+    sellProduct: [{
         type:Schema.Types.ObjectId,
         ref: 'SellProduct'
     }],
-    stock:{
-        type: Number,
-        min: [0, 'Stock cannot below 0']
-    },
     brand:  String,
     images: String
 })

@@ -19,8 +19,8 @@ const sellProductSchema = new Schema({
         min: [0, 'Stock cannot below 0']
     },
     size: {
-        type: String,
-        min: [0, 'Size cannot below 0']
+        type:Schema.Types.ObjectId,
+        ref: 'Size'
     }
 })
 

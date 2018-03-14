@@ -1,8 +1,10 @@
-
+const sellProduct = require('../model/sellProduct.model')
 const Product = require('../model/product.model')
+const Size = require('../model/size.model')
 
 module.exports = {
     addProduct(req,res){
+        console.log(req.body)
         Product.find()
         .exec()
         .then(listProduct=>{
@@ -12,13 +14,33 @@ module.exports = {
                 }
             })
             if(findDouble.length > 0){
-                res.status(409).json({
-                    message: 'Product name already been used'
+                const findDoubleSize = findDouble[0].size.filter(size=>{
+                    if(String(req.body.size) === String(size)){
+                        return size
+                    }
                 })
+                if(findDoubleSize.length > 0){
+                    res.status(409).json({
+                        message: 'Product name already been used'
+                    })
+                }else{
+                    Product.update(
+                        {'_id':findDouble[0]._id },
+                        { "$push": { "size": req.body.size } },
+                        function (err, manageProduct) {
+                            if(err){
+                                res.status(409).json('error')
+                            }else{
+                                res.status(200).json(manageProduct)
+                            }
+                        }
+                    );
+                }
+                
             }else{
-                const {name,brand,images} = req.body
+                const {name,brand,images,size} = req.body
                 const newProduct = new Product({
-                    name,brand,images
+                    name,brand,images,size
                 })
                 newProduct.save((err,response)=>{
                     if(err){
@@ -31,21 +53,42 @@ module.exports = {
     },
     listProduct(req,res){
         Product.find()
-        .populate('SellProduct')
+        .populate('sellProduct')
+        .populate('size')
         .exec()
         .then(listProduct=>{
+            let newList = []
             const List = listProduct.map(product=>{
-                let cheapestTmp = product.SellProduct[0].price;
-                const cheapest = product.SellProduct.filter(SellProduct =>{
-                    if(SellProduct.price < cheapestTmp){
-                        cheapestTmp = SellProduct.price
+                let newObj = {}
+                let cheapestTmp = product.sellProduct[0].price;
+                const cheapest = product.sellProduct.filter(sellProduct =>{
+                    if(sellProduct.price < cheapestTmp){
+                        cheapestTmp = sellProduct.price
                     }
                 })
-                product.Cheapest = cheapestTmp
+                newObj['size'] = product.size,
+                newObj['sellProduct'] = product.sellProduct
+                newObj['_id'] = product._id
+                newObj['name'] = product.name
+                newObj['brand'] = product.brand
+                newObj['images'] = product.images
+                newObj['Cheapest'] = cheapestTmp
+                newList.push(newObj)
                 return product
             })
-            console.log(List[0].Cheapest)
-            res.status(200).json(List)
+            sellProduct.find()
+            .exec()
+            .then(sellProductData=>{
+                Size.find()
+                .exec()
+                .then(sizeData=>{
+                    res.status(200).json({
+                        products: newList,
+                        sellProducts: sellProductData,
+                        size: sizeData
+                    })
+                })
+            })
         })
     },
     findProduct(req,res){

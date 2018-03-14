@@ -4,44 +4,75 @@ const Product = require('../model/product.model')
 
 module.exports = {
     sellProduct(req,res){
-        const { user,product,price,stock,size } = req.body
+        const { user,product,size } = req.body
+        const price = Number(req.body.price)
+        const stock = Number(req.body.stock)
         let newSellProduct = new SellProduct({
-            user,product,price : Number(price),stock: Number(stock),size
-        })
-        const addNewSellProduct = new Promise((resolve,reject)=>{
-            newSellProduct.save((err,product)=>{
-                if(err){reject(err)}
-                resolve(product)
-            })
-
-        })
-
-        const pushUser = new Promise((resolve,reject)=>{
-            User.update(
-                {'_id':user },
-                { "$push": { "sellProduct": newSellProduct._id } },
-                function (err, manageUser) {
-                    if(err){
-                        resolve(err)
-                    }else{
-                        resolve(manageUser)
-                    }
-                }
-            );
+            user,product, price,stock,size
         })
         
-        const pushProduct = new Promise ((resolve,reject)=>{
-            Product.update(
-                {'_id': product},
-                {"$push":{"SellProduct": newSellProduct._id}},
-                function(err,manageProduct){
-                    if(err){reject(err)}else{resolve(manageProduct)}
+        Product.findOne({'_id': newSellProduct.product})
+        .exec()
+        .then(productData=>{
+            const checkSize = productData.size.filter(size=>{
+                if(String(size) === String(newSellProduct.size)){
+                    return size
                 }
-            )
-        })
+            })
+            if(checkSize.length>0){
+                User.findOne({'_id': user})
+                .exec()
+                .then(userData=>{
+                    if(userData){
+                        // Sell Product
+                        newSellProduct.save((err,newData)=>{
+                            if(!err){
+                                const updateUser = new Promise((resolve,reject)=>{
+                                    User.update(
+                                        {'_id': user},
+                                        { "$push": { "sellProduct": newData._id }},
+                                        function(err,success){
+                                            if(!err){resolve(success)}
+                                            if(err){reject(err)}
+                                        }
+                                    )
+                                })
 
-        Promise.all([addNewSellProduct,pushUser,pushProduct]).then((values)=>{
-            res.status(200).json('DONE')
+                                const updateProduct = new Promise((resolve,reject)=>{
+                                    Product.update(
+                                        {'_id': product},
+                                        {"$push": {"sellProduct":newData._id}},
+                                        function(err,success){
+                                            if(!err){resolve(success)}
+                                            if(err){reject(err)}
+                                        }
+                                    )
+                                })
+
+                                Promise.all([updateUser,updateProduct]).then(done=>{
+                                    res.status(200).json('Done')
+                                })
+                            }
+                        })
+                    }else{
+                        res.status(409).json('User unknown')        
+                    }
+                })
+            }else{
+                res.status(409).json('Unavailable size')
+            }
+        })
+        .catch(err=>{
+            res.status(409).json(err)
+        })
+    },
+    getAll(req,res){
+        SellProduct.find()
+        .populate('Product')
+        .exec()
+        .then(sellProductData=>{
+            console.log(sellProductData)
+            res.status(200).json(sellProductData)
         })
     }
 }

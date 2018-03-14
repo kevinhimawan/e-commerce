@@ -20,17 +20,13 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'SellProduct'
     }],
-    transaction:[{
-        type: Schema.Types.ObjectId,
-        ref: 'Transaction'
-    }],
-    bid:[{
-        type: Schema.Types.ObjectId,
-        ref: 'Bid'
-    }],
     cart:[{
         type: Schema.Types.ObjectId,
         ref: 'Cart'
+    }],
+    transaction:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Transaction'
     }],
     password:{
         type:String
