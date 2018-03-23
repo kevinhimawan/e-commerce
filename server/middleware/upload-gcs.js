@@ -1,48 +1,69 @@
-const Storage = require('@google-cloud/storage');
+const Storage = require("@google-cloud/storage")
 const config = {
-    // CloudBucket name
-    // ProjectID
+    CLOUD_BUCKET: 'blog.kevinhimawan.xyz',
+    PROJECT_ID: 'e-commerce-198004',
 }
-
 const storage = Storage({
-    // projectid
-    // keyfilename = hasil downloadan dari GCP text name file
-})
+    projectId: config.PROJECT_ID,
+    keyFilename: 'e-commerce-019805aec045.json'
+});
 
-const bucket = storage.bucket(config.CloudBucket)
+// set which bucket
+const bucket = storage.bucket(config.CLOUD_BUCKET);
 
-function getPublicUrl(filename){
-    return `https://storage.googleapis.com/${config.CloudBucket}/${filename}`
+// just a helper to create absolute path to GCS
+function getPublicUrl(filename) {
+    return `https://storage.googleapis.com/${config.CLOUD_BUCKET}/${filename}`;
 }
 
-function sendUploadToGCS(req,res,next){
-    if(!req.file){
-        return new ('Upload gagal')
+let ImgUpload = {};
+// the real middleware
+
+ImgUpload.sendUploadToGCS = (req, res, next) => {
+    if (!req.files) {
+        return next('upload mungkin gagal');
     }
-}
 
-const gcsname = Date.now() + '.' + req.file.orignalname.split('.').pop()
-const file = bucket.file(gcsname)
+    const bulkupload = req.files.map((data) => {
+        return new Promise((resolve,reject)=>{
+            const gcsname = Date.now() + '.' + data.originalname.split('.').pop();
+            const file = bucket.file(gcsname);
 
-const stream = file.createWriteStream({
-    metadata:{
-        contentType: req.file.mimetype
-    }
-})
+            // // prepare the stream
+            const stream = file.createWriteStream({
+                metadata: {
+                    contentType: data.mimetype
+                }
+            });
 
-// handle when upload error
-stream.on('error',(err)=>{
-    req.file.cloudStorageError = err;
-    next(err)
-})
+            // // handle when upload error
+            stream.on('error', (err) => {
+                data.cloudStorageError = err;
+                reject(err)
+            });
 
-// handle when upload finish
-stream.on('finish',()=>{
-    req.file.cloudStorageObject = gcsname;
-    file.makePublic()
-        .then(()=>{
-            req.file.cloudStoragePublicUrl = getPublicUrl
+            // // handle when upload finish
+            stream.on('finish', () => {
+                data.cloudStorageObject = gcsname;
+                file.makePublic(). //make the uploaded file public
+                then(() => {
+                    data.cloudStoragePublicUrl = getPublicUrl(gcsname);
+                    resolve(data.cloudStoragePublicUrl)
+                });
+            });
+
+            // // write the file
+            stream.end(data.buffer);
         })
-})
+    })
 
-module.exports = sendUploadToGCS
+    Promise.all(bulkupload).then(allready=>{
+        console.log('hellooo')
+        next()
+    })
+    .catch(err=>{
+        next(err)
+    })
+}
+
+module.exports = ImgUpload

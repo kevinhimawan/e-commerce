@@ -16,21 +16,21 @@ const userSchema = new Schema({
         trim: true,
         validate: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
     },
-    sellProduct:[{
-        type: Schema.Types.ObjectId,
-        ref: 'SellProduct'
-    }],
-    cart:[{
-        type: Schema.Types.ObjectId,
-        ref: 'Cart'
-    }],
-    transaction:[{
-        type: Schema.Types.ObjectId,
-        ref: 'Transaction'
-    }],
+    status:{
+        type: String,
+        default: 'User'
+    },
     password:{
         type:String
-    }
+    },
+    shoeSellProduct:[{
+        type: Schema.Types.ObjectId,
+        ref: 'ShoeSellProduct'
+    }],
+    shoeBidding:[{
+      type: Schema.Types.ObjectId,
+      ref: 'ShoeBidding'
+    }]
 })
 
 const User = mongoose.model('User',userSchema)
