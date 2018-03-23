@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-// const { sendUploadToGCS } = require('./middleware/upload-gcs')
+const PORT = process.env.PORT || 3000
 require('dotenv').config()
 
 // App use
@@ -41,4 +41,4 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-app.listen(3000,()=>{console.log('Running')})
+app.listen(PORT,()=>{console.log('Running')})
