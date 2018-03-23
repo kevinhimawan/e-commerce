@@ -8,84 +8,48 @@
     <!-- Lato Font -->
     <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Lato" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-    <!-- Materialize Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Font-Awesome Icons -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <!-- Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.15/dist/vue.js"></script>
     <title>Login</title>
 </head>
 <body>
-    <div class="row login_page_container">        
-        <form id="login_form" class="col s12 login_form">
-            <div class="center-align title">
-                <h4 class="center-align logo_font">Sneaks It</h4>
-            </div>
-            <div class="row set_input">
-                <div class="input-field col s12">
-                    <input value="kevinhimawan" id="username_email_signin" type="text" class="validate">
-                    <label for="username_email_signin">Username or Email</label>
-                    <span style="display: none" class="login_user_notfound">Username not found or Password is wrong</span>
-                </div>
-            </div>
-            <div class="row set_input">
-                <div class="input-field col s12">
-                    <input value="kevin123" id="password_singin" type="password" class="validate">
-                    <label for="password_singin">Password</label>
-                    <i id="password_showup_login" class="material-icons signup_icons_desriptive">remove_red_eye</i>
-                </div>
-            </div>
-            <div class="buttons_login">
-                <button id="signin_button" type="button" class="waves-effect waves-light btn">Submit</button>    
-                <button id="signup_button" type="button" class="waves-effect waves-light btn">Sign Up</button>
-            </div>
-        </form>
+    <div id="login_page" class="login_page_container">        
+    <!-- Login Form -->
+        <login-component
+            v-bind:login="login"
+            v-bind:eyepassword="eyePassword"
+            v-bind:userdata="userData"
 
-        <form id="signup_form" class="col s12 login_form">
-            <div class="center-align title">
-                <h4 class="center-align logo_font">Sneaks It</h4>
-                <h5 class="center-align login_top_description">Sign up to organise your task</h5>
-            </div>
-            <div class="row set_input">
-                <div class="input-field col s12">
-                    <input id="username_signup" type="text" class="validate">
-                    <label for="username_signup">Username</label>
-                </div>
-            </div>
-            <div class="row set_input">
-                <div id="email_div" class="input-field col s12">
-                    <input id="email_signup" type="text" class="validate">
-                    <label for="email_signup">Email</label>
-                </div>
-            </div>
-            <div class="row set_input">
-                <div id="password_div" class="input-field col s12">
-                    <input id="password_signup" type="password" class="validate">
-                    <label for="password_signup">Password</label>
-                    <i id="password_showup" class="material-icons signup_icons_desriptive">remove_red_eye</i>
-                    <span class="password_barometer"></span>
-                </div>
-            </div>
-            <div class="row set_input">
-                <div id="respassword_div" class="input-field col s12">
-                    <input id="repassword_signup" type="password" class="validate">
-                    <label for="repassword_signup">Confirm Password</label>
-                    <i id="repassword_showup" class="material-icons signup_icons_desriptive">remove_red_eye</i>
-                </div>
-            </div>
-            <div class="buttons_login">
-                <button id="signup_button_submit" type="button" class="waves-effect waves-light btn">Submit</button>    
-                <button id="haveacount_button" type="button" class="waves-effect waves-light btn">Have Acount</button>
-            </div>
-        </form>
+            v-on:changeeyepassword="changeEyePassword"
+            v-on:changeloginorsignup="changeloginorsignup">
+        </login-component>
+    <!-- Sign Up Form -->
+        <signup-component 
+            v-bind:eyepassword="eyePassword"
+            v-bind:eyerepassword="eyeRepassword"
+            v-bind:userdata="userData"
+            v-bind:signup="signup"
+
+            v-on:changeeyepassword="changeEyePassword"
+            v-on:changeloginorsignup="changeloginorsignup">
+        </signup-component>
     </div>    
 </body>
 <!-- Axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Materiliaze CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<!-- Bootstrapt CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- login-component -->   
+    <script src="./script/login/login-component.js"></script>
+<!-- signup-component -->
+    <script src="./script/login/signup-component.js"></script>
 <!-- Login Js -->
-    <script src="./script/login.script.js"></script>
+    <script src="./script/login/login.script.js"></script>
 <!-- Sweet Alert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </html>

@@ -3,6 +3,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const PORT = process.env.PORT || 3000
 require('dotenv').config()
+const mongoose = require ('mongoose')
 
 // App use
 const app = express()
@@ -17,10 +18,6 @@ mongoose.connect(dbURL,(err)=>{
     console.log(`Connected to database`)
   }
 });
-
-app.use('/', (req,res)=>{
-  console.log('hi')
-})
 
 // Routes
 const Login = require('./routes/login.routes')

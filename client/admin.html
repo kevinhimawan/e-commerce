@@ -4,40 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- Link Style -->
     <link rel="stylesheet" href="./style/style.css">
     <!-- Lato Font -->
     <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Lato" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Bootstrap Select CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css">
     <!-- Font-Awesome Icons -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <!-- Vue -->
-    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.15/dist/vue.js"></script>
     <!-- Popper Dropdown Bootstrap -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <title>Home</title>
+    <title>Document</title>
 </head>
 <body>
-    <div id="index">
-        <!-- Sell Modal -->
-        <index-sell-modal
-          v-bind:specificshoe="specificShoe"
-          v-bind:modal="modalSell"
-          
-          v-on:changemodal="changemodal"
-          v-on:changeduration="changeduration">
-        </index-sell-modal>
+    <div id="admin">
+        <!-- Modal Add Item -->
+        <add-item-modal
+            v-bind:allshoesdata="allShoes">
+        </add-item-modal>
 
-        <!-- Bid Modal -->
-        <index-bid-modal
-          v-bind:specificshoe="specificShoe"
-          v-bind:modal="modalBid"
-          
-          v-on:changemodal="changemodalbid"
-          v-on:changeduration="changedurationbid">
-        </index-bid-modal>
-        
+        <!-- Modal Add Size Item -->
+        <add-size-item-modal
+            v-bind:shoesdata="allShoes">
+        </add-size-item-modal>
+
+        <!-- Modal Edit Item -->
+        <edit-item
+            v-bind:shoedata="shoedata"
+            v-on:shoeimageremove="shoeimageremove">
+        </edit-item>
+
         <!-- NavBar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a href="index.html" class="navbar-brand" style="color:white">Sneak It</a>
@@ -47,41 +46,45 @@
             </form>
             <div class="collapse navbar-collapse" style="justify-content:flex-end" id="navbarSupportedContent">
                 <ul class="navbar-nav my-2 my-lg-0">
-                    <li v-if="myacount" class="nav-item">
-                        <a href="profile.html" class="nav-link">My Account</a>
+                    <li class="nav-item">
+                        <a href="" class="nav-link" data-toggle="modal" data-target="#add-item-size-modal">Add Size</a>
                     </li>
                     <li class="nav-item">
-                        <a href="sell.html" class="nav-link">Sell</a>
+                        <a href="" class="nav-link" data-toggle="modal" data-target="#add-item-modal">Add Item</a>
                     </li>
-                    <li v-if="signout" class="nav-item">
-                        <a class="nav-link" v-on:click="signOut">Sign Out</a>
-                    </li>
-                    <li v-if="signin" class="nav-item">
-                        <a href="login.html" class="nav-link">Sign In</a>
+                    <li class="nav-item">
+                        <a href="" class="nav-link" v-on:click="signOut">Sign Out</a>
                     </li>
                 </ul>
             </div>
         </nav>
-        <index-container
-          v-bind:shoealldata="allproduct"
-          v-on:shoeid="shoespecific">
-        </index-container>
+        <!-- Container -->
+        <admin-container
+            v-bind:shoesdata="allShoes"
+            v-on:shoedata="getshoedata">
+        </admin-container>
+
     </div>
 </body>
 <!-- Axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Bootstrapt CDN -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<!-- Index Bid Modal -->
-    <script src="./script/index/index.bid.modal.js"></script>
-<!-- Index Sell Modal -->
-    <script src="./script/index/index.sell.modal.js"></script>
-<!-- Index Container -->
-    <script src="./script/index/index.container.js"></script>
-    <!-- Index Js -->
-    <script src="./script/index/index.script.js"></script>
+<!-- Booststrap Select JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+
+<!-- Modal-Edit-Item -->
+    <script src="./script/admin/edit-item-modal.js"></script>   
+<!-- Modal-Add-Size-Item -->
+    <script src="./script/admin/add-size-item-modal.js"></script>
+<!-- Modal-Add-Item -->
+    <script src="./script/admin/add-item-modal.js"></script>
+<!-- Admin-Container -->
+    <script src="./script/admin/admin-container.js"></script>
+<!-- Admin Js -->
+    <script src="./script/admin/general.script.js"></script>
 <!-- Sweet Alert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </html>

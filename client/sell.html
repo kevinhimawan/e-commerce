@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- Link Style -->
     <link rel="stylesheet" href="./style/style.css">
     <!-- Lato Font -->
     <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Lato" rel="stylesheet">
@@ -13,31 +12,22 @@
     <!-- Font-Awesome Icons -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <!-- Vue -->
-    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.15/dist/vue.js"></script>
     <!-- Popper Dropdown Bootstrap -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <title>Home</title>
+    <title>Sell</title>
 </head>
 <body>
-    <div id="index">
-        <!-- Sell Modal -->
-        <index-sell-modal
-          v-bind:specificshoe="specificShoe"
-          v-bind:modal="modalSell"
-          
-          v-on:changemodal="changemodal"
-          v-on:changeduration="changeduration">
-        </index-sell-modal>
+    <div id="sell">
+        <!-- Modal Sell -->
+        <sell-modal
+            v-bind:specificshoe="specificShoe"
+            v-bind:modal="modalSell"
+            
+            v-on:changemodal="changemodal"
+            v-on:changeduration="changeduration">
+        </sell-modal>
 
-        <!-- Bid Modal -->
-        <index-bid-modal
-          v-bind:specificshoe="specificShoe"
-          v-bind:modal="modalBid"
-          
-          v-on:changemodal="changemodalbid"
-          v-on:changeduration="changedurationbid">
-        </index-bid-modal>
-        
         <!-- NavBar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a href="index.html" class="navbar-brand" style="color:white">Sneak It</a>
@@ -47,25 +37,21 @@
             </form>
             <div class="collapse navbar-collapse" style="justify-content:flex-end" id="navbarSupportedContent">
                 <ul class="navbar-nav my-2 my-lg-0">
-                    <li v-if="myacount" class="nav-item">
-                        <a href="profile.html" class="nav-link">My Account</a>
-                    </li>
                     <li class="nav-item">
                         <a href="sell.html" class="nav-link">Sell</a>
                     </li>
-                    <li v-if="signout" class="nav-item">
-                        <a class="nav-link" v-on:click="signOut">Sign Out</a>
-                    </li>
-                    <li v-if="signin" class="nav-item">
-                        <a href="login.html" class="nav-link">Sign In</a>
+                    <li class="nav-item">
+                        <a href="" class="nav-link" v-on:click="signOut">Sign Out</a>
                     </li>
                 </ul>
             </div>
         </nav>
-        <index-container
-          v-bind:shoealldata="allproduct"
-          v-on:shoeid="shoespecific">
-        </index-container>
+        
+        <sell-container
+            v-bind:allshoes="allShoes"
+            v-on:shoeid="getSpecificProduct">
+        </sell-container>
+        
     </div>
 </body>
 <!-- Axios -->
@@ -74,14 +60,12 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrapt CDN -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<!-- Index Bid Modal -->
-    <script src="./script/index/index.bid.modal.js"></script>
-<!-- Index Sell Modal -->
-    <script src="./script/index/index.sell.modal.js"></script>
-<!-- Index Container -->
-    <script src="./script/index/index.container.js"></script>
-    <!-- Index Js -->
-    <script src="./script/index/index.script.js"></script>
+<!-- Sell-Modal -->
+    <script src="./script/sell/sell-modal.js"></script>
+<!-- Sell-Container -->
+    <script src="./script/sell/sell-container.js"></script>
+<!-- Sell Js -->
+    <script src="./script/sell/sell.script.js"></script>
 <!-- Sweet Alert -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </html>
