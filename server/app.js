@@ -1,5 +1,4 @@
 const express = require('express')
-const mongoose = require('mongoose');
 const cors = require('cors')
 const bodyParser = require('body-parser')
 // const { sendUploadToGCS } = require('./middleware/upload-gcs')
@@ -11,28 +10,8 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Multer MiddleWare
-
-// const uploadMem = multer({
-//   storage: multer.MemoryStroge,
-//   limits:{
-//     fileSize: 10*1024*1024
-//   }
-// })
-
-
-// Multer
-// app.post('/upload-gcs', uploadMem.single('avatar'), sendUploadToGCS, function (req, res, next) {
-//   console.log(req.file)
-//   res.status(200).json({
-//     "req.body": req.body,
-//     "req.file":req.file
-//   })
-// })
-
-
 // Monggose
-const dbURL = 'mongodb://localhost/e-commerce'
+const dbURL = 'mongodb://kevinhimawan:12345@ds113179.mlab.com:13179/ecommercedb'
 mongoose.connect(dbURL,(err)=>{
   if(!err){
     console.log(`Connected to database`)
@@ -54,7 +33,6 @@ app.use('/login',Login)
 app.use('/admin',Admin)
 app.use('/sell', Sell)
 app.use('/home', Home)
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
